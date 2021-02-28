@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">NEnRaya</string>
+
+    <!-- login_fragment -->
+
+    <string name="player1">Player 1</string>
+    <string name="player2">Player 2</string>
+    <string name="table_size_text">Select Table Size</string>
+    <string name="play_button_text">Play!</string>
+    <string name="hint_text">Introduce your name...</string>
+
+    <string-array name="spinner_elems">
+        <item>3 in line (3x3)</item>
+        <item>4 in line (4x4)</item>
+        <item>5 in line (5x5)</item>
+    </string-array>
+
+</resources>
