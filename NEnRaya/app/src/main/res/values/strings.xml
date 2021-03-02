@@ -15,4 +15,8 @@
         <item>5 in line (5x5)</item>
     </string-array>
 
+    <!-- game_fragment -->
+
+    <string name="marker_separator_text">-</string>
+
 </resources>
