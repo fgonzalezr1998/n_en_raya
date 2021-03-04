@@ -86,6 +86,7 @@ public class GameActivity extends FragmentActivity implements AdapterView.OnItem
     @Override
     public int getTableRow(int pos) {
         int res;
+        // tableSize = 3;   // Uncomment for running the unit tests!
         res = (int) ((float) pos / (float) tableSize);
 
         return res;
@@ -94,7 +95,7 @@ public class GameActivity extends FragmentActivity implements AdapterView.OnItem
     @Override
     public int getTableCol(int position) {
         int row, p, col;
-
+        // tableSize = 3;   // Uncomment for running the unit tests!
         row = getTableRow(position) + 1;
         p = row * tableSize - 1;
 
@@ -168,7 +169,7 @@ public class GameActivity extends FragmentActivity implements AdapterView.OnItem
     }
 
     private boolean winned(String player) {
-        return isLineHorizontal(player) || isLineVertical(player);
+        return isLineHorizontal(player) || isLineVertical(player) || isLineDiagonal(player);
     }
 
     private boolean isLineHorizontal(String player) {
@@ -200,6 +201,30 @@ public class GameActivity extends FragmentActivity implements AdapterView.OnItem
             if (found)
                 break;
         }
+        return found;
+    }
+
+    private boolean isLineDiagonal(String player) {
+        boolean found = false;
+
+        // Check first diagonal:
+
+        for (int i = 0; i < tableSize; i++) {
+            found = myAdapter.table[i][i] == player;
+            if (!found)
+                break;
+        }
+
+        if (!found) {
+            // Check second diagonal:
+
+            for (int i = tableSize - 1; i >= 0; i--) {
+                found = myAdapter.table[i][tableSize - i - 1] == player;
+                if (!found)
+                    break;
+            }
+        }
+
         return found;
     }
 
