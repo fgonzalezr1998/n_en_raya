@@ -94,8 +94,10 @@
 
     <Button
         android:id="@+id/play_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/play_button_text"/>
+        android:layout_gravity="center"
+        android:text="@string/play_button_text"
+        android:layout_marginBottom="80dp"/>
 
 </LinearLayout>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/game_frame"
@@ -9,7 +10,7 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.20"
+        android:layout_weight="0.15"
         android:fontFamily="casual"
         android:gravity="center"
         android:text="N en raya"
@@ -20,7 +21,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.10"
         android:id="@+id/marker"
         android:orientation="horizontal">
 
@@ -28,7 +30,7 @@
             android:id="@+id/player1Marker"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"
+            android:layout_weight="0.20"
             android:gravity="center"
             android:text="" />
 
@@ -36,7 +38,7 @@
             android:id="@+id/player1Result"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"
+            android:layout_weight="0.20"
             android:gravity="center"
             android:text="" />
 
@@ -44,7 +46,7 @@
             android:id="@+id/markerSeparator"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"
+            android:layout_weight="0.20"
             android:text="@string/marker_separator_text"
             android:gravity="center"/>
 
@@ -52,7 +54,7 @@
             android:id="@+id/player2Result"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"
+            android:layout_weight="0.20"
             android:gravity="center"
             android:text="" />
 
@@ -65,14 +67,12 @@
             android:text="" />
     </LinearLayout>
 
+
     <GridView
         android:id="@+id/tableGrid"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.55"
-        android:gravity="center"
-        android:numColumns="3"
-        android:stretchMode="columnWidth"
-        android:layout_marginBottom="100dp"/>
+        android:layout_weight="0.75"
+        android:numColumns="3" />
 
 </LinearLayout>

@@ -22,12 +22,16 @@ public class GameFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inf, ViewGroup vg, Bundle state) {
-        View v = inf.inflate(R.layout.game_fragment, vg, false);
+        String dims;
+        View v = inf.inflate(R.layout.activity_game, vg, false);
 
         initParams(v);
 
         player1Name = getArguments().getString("player1");
         player2Name = getArguments().getString("player2");
+
+        player1Marker = getArguments().getInt("marker1");
+        player2Marker = getArguments().getInt("marker2");
 
         player1Text.setText(player1Name);
         player2Text.setText(player2Name);
@@ -42,8 +46,5 @@ public class GameFragment extends Fragment {
         player2Text = (TextView) v.findViewById(R.id.player2Marker);
         player1Result = (TextView) v.findViewById(R.id.player1Result);
         player2Result = (TextView) v.findViewById(R.id.player2Result);
-
-        player1Marker = 0;
-        player2Marker = 0;
     }
 }
