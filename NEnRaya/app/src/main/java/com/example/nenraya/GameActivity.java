@@ -2,22 +2,29 @@ package com.example.nenraya;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class GameActivity extends Activity implements AdapterView.OnItemClickListener {
+import java.util.HashMap;
+import java.util.Map;
+
+public class GameActivity extends Activity implements AdapterView.OnItemClickListener, MyAdapter.NInLine {
 
     private TextView player1Name, player2Name, player1Marker, player2Marker;
     private GridView gridView;
 
-    private String player1, player2;
+    private String player1, player2, currentPlayer;
     private int marker1, marker2, tableSize;
     private MyAdapter myAdapter;
+    private Map<String, Integer> playersCards;
 
     @Override
     protected void onCreate(Bundle state) {
@@ -30,7 +37,60 @@ public class GameActivity extends Activity implements AdapterView.OnItemClickLis
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(getApplicationContext(), "Clicked position " + position, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getApplicationContext(), "Clicked position " + position, Toast.LENGTH_SHORT).show();
+        setBox(currentPlayer, position, view);
+    }
+
+    @Override
+    public void setBox(String player, int position, View v) {
+        int row, col;
+        ImageView imageView = (ImageView) v.findViewById(R.id.imageView);
+
+        row = getTableRow(position);
+        col = getTableCol(position);
+
+        if (positionIsEmpty(row, col)) {
+            imageView.setImageResource(playersCards.get(player));
+            setOccupied(currentPlayer, row, col);
+
+            if (currentPlayer.equals(player1))
+                currentPlayer = player2;
+            else
+                currentPlayer = player1;
+        } else {
+            Toast.makeText(getApplicationContext(), "Occupied position!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void setOccupied(String player, int row, int col) {
+        myAdapter.table[row][col] = player;
+    }
+
+    @Override
+    public boolean positionIsEmpty(int row, int col) {
+        return myAdapter.table[row][col] == "";
+    }
+
+    @Override
+    public int getTableRow(int pos) {
+        int res;
+        res = (int) ((float) pos / (float) tableSize);
+
+        return res;
+    }
+
+    @Override
+    public int getTableCol(int position) {
+        int row, p, col;
+
+        row = getTableRow(position) + 1;
+        p = row * tableSize - 1;
+
+        col = p - position;
+        col = tableSize - col - 1;
+
+        return col;
     }
 
     private void getParams() {
@@ -55,6 +115,12 @@ public class GameActivity extends Activity implements AdapterView.OnItemClickLis
     }
 
     private void initParams() {
+        playersCards = new HashMap<String, Integer>();
+        playersCards.put(player1, R.drawable.x1);
+        playersCards.put(player2, R.drawable.o1);
+
+        currentPlayer = player1;
+
         player1Name = (TextView) findViewById(R.id.player1Marker);
         player2Name = (TextView) findViewById(R.id.player2Marker);
         player1Marker = (TextView) findViewById(R.id.player1Result);

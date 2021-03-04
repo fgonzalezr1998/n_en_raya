@@ -9,13 +9,18 @@ import android.widget.ImageView;
 
 public class MyAdapter extends BaseAdapter {
 
-    Context context;
-    LayoutInflater inflater;
-    int tableSize;
+    private Context context;
+    private LayoutInflater inflater;
+    private int tableSize;
+    protected String [][] table;
+
+    private NInLine nInLine;
 
     public MyAdapter(Context c, int gridSize) {
         context = c;
         tableSize = gridSize;
+        table = new String[gridSize][gridSize];
+        initTable();
     }
 
     @Override
@@ -46,8 +51,24 @@ public class MyAdapter extends BaseAdapter {
 
         ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
 
-        imageView.setImageResource(R.drawable.table_game);
+        imageView.setImageResource(R.drawable.empty);
 
         return convertView;
+    }
+
+    private void initTable() {
+        for (int i = 0; i < tableSize; i++) {
+            for (int j = 0; j < tableSize; j++) {
+                table[i][j] = "";
+            }
+        }
+    }
+
+    public interface NInLine {
+        void setBox(String player, int position, View v);
+        void setOccupied(String player, int row, int col);
+        int getTableRow(int position);
+        int  getTableCol(int position);
+        boolean positionIsEmpty(int row, int col);
     }
 }
