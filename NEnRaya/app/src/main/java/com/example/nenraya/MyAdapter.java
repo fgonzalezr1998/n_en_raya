@@ -14,8 +14,6 @@ public class MyAdapter extends BaseAdapter {
     private int tableSize;
     protected String [][] table;
 
-    private NInLine nInLine;
-
     public MyAdapter(Context c, int gridSize) {
         context = c;
         tableSize = gridSize;

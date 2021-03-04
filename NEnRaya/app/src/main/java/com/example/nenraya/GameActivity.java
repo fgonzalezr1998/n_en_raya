@@ -15,16 +15,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class GameActivity extends Activity implements AdapterView.OnItemClickListener, MyAdapter.NInLine, View.OnClickListener {
+public class GameActivity extends FragmentActivity implements AdapterView.OnItemClickListener,
+        MyAdapter.NInLine, View.OnClickListener, OptionsFragment.FragmentListener {
 
     private TextView player1Name, player2Name, player1Marker, player2Marker;
     private GridView gridView;
 
     private String player1, player2, currentPlayer;
     private int marker1, marker2, tableSize;
+    private boolean gameStarted;
     private MyAdapter myAdapter;
     private Map<String, Integer> playersCards;
     private LinearLayout linearLayout;
@@ -60,6 +66,8 @@ public class GameActivity extends Activity implements AdapterView.OnItemClickLis
                 currentPlayer = player2;
             else
                 currentPlayer = player1;
+            gameStarted = true;
+            updateMarker();
         } else {
             Toast.makeText(getApplicationContext(), "Occupied position!", Toast.LENGTH_SHORT).show();
         }
@@ -102,10 +110,28 @@ public class GameActivity extends Activity implements AdapterView.OnItemClickLis
 
         switch (id) {
             case R.id.newGameButton:
-                startNewGame();
+                startNewGame(0, 0);
                 break;
             case R.id.optionsButton:
+                startOptionsFragment();
                 break;
+        }
+    }
+
+    @Override
+    public void changePlayersCards() {
+        Integer card1, card2;
+
+        if (!gameStarted) {
+
+            card1 = playersCards.get(player1);
+            card2 = playersCards.get(player2);
+
+            playersCards.put(player1, card2);
+            playersCards.put(player2, card1);
+        } else {
+            Toast.makeText(this, "Game has started! You must start a new game",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -128,6 +154,53 @@ public class GameActivity extends Activity implements AdapterView.OnItemClickLis
         if (player1 == null || player2 == null || tableSize == 0) {
             Toast.makeText(this, "[ERROR] Bad params!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void updateMarker() {
+        int m1, m2;
+        m1 = marker1;
+        m2 = marker2;
+        if (winned(player1)) {
+            startNewGame(++marker1, marker2);
+        } else if (winned(player2)) {
+            startNewGame(marker1, ++marker2);
+        }
+    }
+
+    private boolean winned(String player) {
+        return isLineHorizontal(player) || isLineVertical(player);
+    }
+
+    private boolean isLineHorizontal(String player) {
+        boolean found = false;
+
+        for (int i = 0; i < tableSize; i++) {
+            found = false;
+            for (int j = 0; j < tableSize; j++) {
+                found = myAdapter.table[i][j] == player;
+                if (!found)
+                    break;
+            }
+            if (found)
+                break;
+        }
+        return found;
+    }
+
+    private boolean isLineVertical(String player) {
+        boolean found = false;
+
+        for (int j = 0; j < tableSize; j++) {
+            found = false;
+            for (int i = 0; i < tableSize; i++) {
+                found = myAdapter.table[i][j] == player;
+                if (!found)
+                    break;
+            }
+            if (found)
+                break;
+        }
+        return found;
     }
 
     private void initParams() {
@@ -156,12 +229,25 @@ public class GameActivity extends Activity implements AdapterView.OnItemClickLis
 
         gridView.setAdapter(myAdapter);
         gridView.setOnItemClickListener(this);
+        gameStarted = false;
     }
 
-    private void startNewGame() {
-        marker1 = 0;
-        marker2 = 0;
+    private void startNewGame(int m1, int m2) {
+        marker1 = m1;
+        marker2 = m2;
         initParams();
+    }
+
+    private void startOptionsFragment() {
+        OptionsFragment optionsFragment = new OptionsFragment();
+        optionsFragment.setArguments(getIntent().getExtras());
+
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction trans = manager.beginTransaction();
+
+        trans.replace(R.id.gameButtons, optionsFragment);
+        trans.addToBackStack(null);
+        trans.commit();
     }
 
     private void setButtonsListener(ViewGroup parent_layout) {

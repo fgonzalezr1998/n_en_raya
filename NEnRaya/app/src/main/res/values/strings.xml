@@ -22,4 +22,8 @@
     <string name="new_game_button">New Game</string>
     <string name="options_button">Options</string>
 
+    <!-- options_fragment -->
+
+    <string name="change_cards_button">Change Players Cards</string>
+
 </resources>
