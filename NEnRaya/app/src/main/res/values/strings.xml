@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">NEnRaya</string>
 
-    <!-- login_fragment -->
+    <!-- activity_main -->
 
     <string name="player1">Player 1</string>
     <string name="player2">Player 2</string>
@@ -16,8 +16,10 @@
         <item>5 in line (5x5)</item>
     </string-array>
 
-    <!-- game_fragment -->
+    <!-- activity_game -->
 
     <string name="marker_separator_text">-</string>
+    <string name="new_game_button">New Game</string>
+    <string name="options_button">Options</string>
 
 </resources>

@@ -6,17 +6,19 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class GameActivity extends Activity implements AdapterView.OnItemClickListener, MyAdapter.NInLine {
+public class GameActivity extends Activity implements AdapterView.OnItemClickListener, MyAdapter.NInLine, View.OnClickListener {
 
     private TextView player1Name, player2Name, player1Marker, player2Marker;
     private GridView gridView;
@@ -25,6 +27,7 @@ public class GameActivity extends Activity implements AdapterView.OnItemClickLis
     private int marker1, marker2, tableSize;
     private MyAdapter myAdapter;
     private Map<String, Integer> playersCards;
+    private LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle state) {
@@ -93,6 +96,19 @@ public class GameActivity extends Activity implements AdapterView.OnItemClickLis
         return col;
     }
 
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+
+        switch (id) {
+            case R.id.newGameButton:
+                startNewGame();
+                break;
+            case R.id.optionsButton:
+                break;
+        }
+    }
+
     private void getParams() {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -115,6 +131,9 @@ public class GameActivity extends Activity implements AdapterView.OnItemClickLis
     }
 
     private void initParams() {
+        linearLayout = (LinearLayout) findViewById(R.id.gameButtons);
+        setButtonsListener(linearLayout);
+
         playersCards = new HashMap<String, Integer>();
         playersCards.put(player1, R.drawable.x1);
         playersCards.put(player2, R.drawable.o1);
@@ -137,5 +156,24 @@ public class GameActivity extends Activity implements AdapterView.OnItemClickLis
 
         gridView.setAdapter(myAdapter);
         gridView.setOnItemClickListener(this);
+    }
+
+    private void startNewGame() {
+        marker1 = 0;
+        marker2 = 0;
+        initParams();
+    }
+
+    private void setButtonsListener(ViewGroup parent_layout) {
+        View element;
+
+        for (int i = 0; i < parent_layout.getChildCount(); i++) {
+            element = parent_layout.getChildAt(i);
+            if (element != null && element.isClickable()) {
+                element.setOnClickListener(this);
+            }
+            if (parent_layout.getChildAt(i) instanceof ViewGroup)
+                this.setButtonsListener((ViewGroup) parent_layout.getChildAt(i));
+        }
     }
 }
