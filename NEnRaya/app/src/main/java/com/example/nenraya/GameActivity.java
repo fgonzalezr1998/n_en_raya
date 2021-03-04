@@ -165,7 +165,27 @@ public class GameActivity extends FragmentActivity implements AdapterView.OnItem
             startNewGame(++marker1, marker2);
         } else if (winned(player2)) {
             startNewGame(marker1, ++marker2);
+        } else {
+            if (isTie()) {
+                Toast.makeText(this, "Tie!", Toast.LENGTH_SHORT).show();
+                startNewGame(0, 0);
+            }
         }
+    }
+
+    private boolean isTie() {
+        boolean occupied = false;
+        for (int i = 0; i < tableSize; i++) {
+            for (int j = 0; j < tableSize; j++) {
+                occupied = myAdapter.table[i][j].equals(player1) || myAdapter.table[i][j].equals(player2);
+                if (!occupied)
+                    break;
+            }
+            if (!occupied)
+                break;
+        }
+
+        return occupied;
     }
 
     private boolean winned(String player) {
