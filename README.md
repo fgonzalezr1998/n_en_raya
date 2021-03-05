@@ -15,7 +15,7 @@ Also, users can choose the table size. Then, you can start the game by pressing 
 
 ### GameActivity:
 
-When the game starts, *GameActivity* is shown. This activity contains a title, a marker, the game table and two buttons (one for start a new game and the other to see the settings).
+When the game starts, the *GameActivity* is shown. This activity contains a title, a marker, the game table and two buttons (one for start a new game and the other to see the settings).
 
 ![img](docs/game_activity.png)
 
